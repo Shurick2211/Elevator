@@ -57,10 +57,11 @@ public class Elevator implements Const{
    * Method moves elevator for next floor.
    */
   public void nextFloor() {
-    if (currentFloor < N && trend.equals(Trend.UP)) this.currentFloor++;
-    if (currentFloor > 1 && trend.equals(Trend.DOWN)) this.currentFloor--;
     if (currentFloor == N || hasNoUpCall())  this.trend = Trend.DOWN;
     if (currentFloor == 1 || hasNoDownCall()) this.trend = Trend.UP;
+    if (currentFloor < N && trend.equals(Trend.UP)) this.currentFloor++;
+    if (currentFloor > 1 && trend.equals(Trend.DOWN)) this.currentFloor--;
+
   }
 
   /**
@@ -79,10 +80,9 @@ public class Elevator implements Const{
    * @return true or false
    */
   private boolean hasNoUpCall() {
-    int waite = 0;
-    waite = Arrays.stream(BUILDING).filter(f -> f.getNumber() > currentFloor).mapToInt(Floor::getNumberOfPerson).reduce(waite, Integer::sum);
-    return trend.equals(Trend.UP) && peopleOnElevator.isEmpty()
-            && waite == 0;
+    return peopleOnElevator.isEmpty()
+            && Arrays.stream(BUILDING).filter(f -> f.getNumber()-1 > currentFloor-1)
+            .mapToInt(Floor::getNumberOfPerson).reduce(0, Integer::sum) == 0;
   }
 
   /**
@@ -90,10 +90,9 @@ public class Elevator implements Const{
    * @return true or false
    */
   private boolean hasNoDownCall() {
-    int waite = 0;
-    waite = Arrays.stream(BUILDING).filter(f -> f.getNumber() < currentFloor).mapToInt(Floor::getNumberOfPerson).reduce(waite, Integer::sum);
-    return trend.equals(Trend.DOWN) && peopleOnElevator.isEmpty()
-            && waite == 0;
+    return  peopleOnElevator.isEmpty()
+            && Arrays.stream(BUILDING).filter(f -> f.getNumber()-1 < currentFloor-1)
+            .mapToInt(Floor::getNumberOfPerson).reduce(0, Integer::sum) == 0;
   }
 
   @Override
