@@ -10,9 +10,11 @@ public class Building implements Const{
   public static void main(String[] args) {
     System.out.println("The building has " + createBuilding() + " floors.");
     cycleOfElevator();
-    //Arrays.stream(BUILDING).forEach(System.out::println);
   }
 
+  /**
+   * Method imitates cycle of the elevator.
+   */
   private static void cycleOfElevator() {
     Elevator elevator = new Elevator();
     while (true) {
@@ -47,6 +49,9 @@ public class Building implements Const{
     }
   }
 
+  /**
+   * Method prints the separator.
+   */
   private static void separator() {
     System.out.println("-------------------------------------------------------------------------");
   }
