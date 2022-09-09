@@ -23,4 +23,9 @@ public class Person implements Const{
   public void setNeedFloor() {
     this.needFloor = 1 + new Random().nextInt(N - 1);
   }
+
+  @Override
+  public String toString() {
+    return "Person needs: " + needFloor;
+  }
 }
