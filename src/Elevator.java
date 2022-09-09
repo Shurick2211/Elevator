@@ -38,6 +38,8 @@ public class Elevator implements Const{
       leaving.add(person);
     }
     arrivals.forEach(BUILDING[currentFloor-1]::addPersonOnFloor);
+    if (hasNoUpCall())  this.trend = Trend.DOWN;
+    if (hasNoDownCall()) this.trend = Trend.UP;
     StringBuilder builder = new StringBuilder();
     if (arrivals.size() > 0) builder.append("The ").append(arrivals.size()).append(" has arrived. ");
     if (leaving.size() > 0) builder.append("The ").append(leaving.size()).append(" has leaving. ");
@@ -57,11 +59,10 @@ public class Elevator implements Const{
    * Method moves elevator for next floor.
    */
   public void nextFloor() {
-    if (currentFloor == N || hasNoUpCall())  this.trend = Trend.DOWN;
-    if (currentFloor == 1 || hasNoDownCall()) this.trend = Trend.UP;
     if (currentFloor < N && trend.equals(Trend.UP)) this.currentFloor++;
     if (currentFloor > 1 && trend.equals(Trend.DOWN)) this.currentFloor--;
-
+    if (currentFloor == N)  this.trend = Trend.DOWN;
+    if (currentFloor == 1) this.trend = Trend.UP;
   }
 
   /**
