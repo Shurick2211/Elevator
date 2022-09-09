@@ -43,7 +43,6 @@ public class Elevator implements Const{
     StringBuilder builder = new StringBuilder();
     if (arrivals.size() > 0) builder.append("The ").append(arrivals.size()).append(" has arrived. ");
     if (leaving.size() > 0) builder.append("The ").append(leaving.size()).append(" has leaving. ");
-   // builder.append("In the elevator ").append(peopleOnElevator.size()).append(" persons");
     if (!builder.isEmpty()) System.out.println(builder);
   }
 
@@ -73,7 +72,8 @@ public class Elevator implements Const{
     boolean hasWaite = trend.equals(Trend.UP) ? BUILDING[currentFloor-1].trendUp.size() > 0 :
             BUILDING[currentFloor-1].trendDown.size() > 0;
     return (peopleOnElevator.size() < ELEVATOR_CAPACITY && hasWaite)
-            || peopleOnElevator.stream().anyMatch(p -> p.getNeedFloor() == currentFloor) || currentFloor == N || currentFloor == 1;
+            || peopleOnElevator.stream().anyMatch(p -> p.getNeedFloor() == currentFloor)
+            || currentFloor == N || currentFloor == 1;
   }
 
   /**
