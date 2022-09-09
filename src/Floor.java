@@ -9,6 +9,10 @@ public class Floor implements Const{
   protected Queue<Person> trendUp = new LinkedList<>();
   protected Queue<Person> trendDown = new LinkedList<>();
 
+  /**
+   * The constructor for the floor
+   * @param number of the floor
+   */
   public Floor(int number) {
     this.number = number;
     this.k = new Random().nextInt(10);
@@ -17,16 +21,27 @@ public class Floor implements Const{
     }
   }
 
-
+  /**
+   * Method returns number of the floor.
+   * @return number of the floor.
+   */
   public int getNumber() {
     return number;
   }
 
+  /**
+   * Method returns number of people on the floor.
+   * @return k number of people.
+   */
   public int getNumberOfPerson() {
     this.k = trendUp.size() + trendDown.size();
     return k;
   }
 
+  /**
+   * Method adds person to the queue on the elevator.
+   * @param person for adds to the queue.
+   */
   public void addPersonOnFloor(Person person) {
     while (person.getNeedFloor() == number) person.setNeedFloor();
     if (person.getNeedFloor() > number) trendUp.offer(person);

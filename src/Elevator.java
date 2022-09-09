@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**The class for create elevator (the lift)*/
 public class Elevator implements Const{
@@ -21,15 +22,29 @@ public class Elevator implements Const{
    * Method to exchange people between floor and elevator.
    */
   public void fillFloor(){
-    peopleOnElevator.stream().filter(p -> p.getNeedFloor() == currentFloor)
-            .forEach(person -> {
-              peopleOnElevator.remove(person);
-              BUILDING[currentFloor-1].addPersonOnFloor(person);
-            });
-    while (peopleOnElevator.size() != Elevator_CAPACITY) {
-      if (trend == Trend.UP) peopleOnElevator.add(BUILDING[currentFloor - 1].trendUp.poll());
-      else peopleOnElevator.add(BUILDING[currentFloor - 1].trendDown.poll());
+    List<Person> arrivals = peopleOnElevator.stream()
+            .filter(p -> p.getNeedFloor() == currentFloor).collect(Collectors.toList());
+    arrivals.forEach(person -> {
+      peopleOnElevator.remove(person);
+      BUILDING[currentFloor-1].addPersonOnFloor(person);
+    });
+    List<Person> leaving = new ArrayList<>();
+    Person person;
+    while (peopleOnElevator.size() != Elevator_CAPACITY ) {
+      if (trend == Trend.UP) {
+        person = BUILDING[currentFloor - 1].trendUp.poll();
+      } else {
+        person = BUILDING[currentFloor - 1].trendDown.poll();
+      }
+      if (person == null) break;
+      peopleOnElevator.add(person);
+      leaving.add(person);
     }
+    StringBuilder builder = new StringBuilder();
+    if (arrivals.size() > 0) builder.append(". The ").append(arrivals.size()).append(" has arrived.");
+    if (leaving.size() > 0) builder.append(" The ").append(leaving.size()).append(" has leaving.");
+    builder.append("In the elevator ").append(peopleOnElevator.size()).append(" persons");
+    System.out.println(builder);
   }
 
   /**
